@@ -20,7 +20,7 @@ const Modal: FC<Props> = ({ children, className, fullHeight }) => {
         className={twMerge(
           `absolute
           bg-[#151515]/80 rounded-t-[43px] md:rounded-b-[43px]
-          w-full md:w-[430px]
+          w-full md:w-[430px] md:max-h-[90dvh] md:overflow-auto
           px-5 md:px-12 py-14 md:py-9
           transition-all duration-700 animate-appear`,
           className,

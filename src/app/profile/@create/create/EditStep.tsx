@@ -3,12 +3,13 @@ import Image from 'next/image';
 import getEmoji from 'get-random-emoji';
 
 import Button from '@/app/components/button';
+import { TAGS } from '@/app/constants/content-creation/tags';
+import useEmojiColor from '@/app/hooks/useEmojiColor';
 
 import PlusIcon from '../../../../../public/plus.svg';
 import MinusIcon from '../../../../../public/minus.svg';
 import CollectionIcon from '../../../../../public/collection.svg';
 import ImageIcon from '../../../../../public/image.svg';
-import { TAGS } from '@/app/constants/content-creation/tags';
 
 type Props = {
   value: any;
@@ -26,11 +27,16 @@ const EditStep: React.FC<Props> = ({
   onBackClick,
 }) => {
   const [inputValue, setInputValue] = useState<Array<string>>([]);
-  const [emoji, setEmoji] = useState<string>();
+  const [emoji, setEmoji] = useState<{ value: string; color: string }>({
+    value: '',
+    color: 'transparent',
+  });
   const [tags, setTags] = useState<Array<string>>([]);
 
   useEffect(() => {
-    setEmoji(getEmoji());
+    const emoji = getEmoji();
+    const color = useEmojiColor(emoji);
+    setEmoji({ value: emoji, color });
   }, []);
 
   const onSave = () => {
@@ -54,8 +60,11 @@ const EditStep: React.FC<Props> = ({
     <div className="w-full">
       <div className="flex flex-col h-full">
         <div className="flex flex-col grow items-center">
-          <div className="h-60 w-60 p-6 mb-9 rounded-[25px] bg-yellow-600 ">
-            <div className="text-center text-[80px] mb-4">{emoji}</div>
+          <div
+            className="h-60 w-60 p-6 mb-9 rounded-[25px]"
+            style={{ background: emoji.color }}
+          >
+            <div className="text-center text-[80px] mb-4">{emoji.value}</div>
             <div className="flex">
               <Image
                 src={ImageIcon}
