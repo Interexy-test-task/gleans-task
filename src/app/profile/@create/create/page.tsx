@@ -1,36 +1,60 @@
-import Input from '@/app/components/input';
+'use client';
+
+import { useState } from 'react';
+
 import Modal from '@/app/components/modal';
+import { Steps } from '@/app/constants/content-creation/steps';
 
-import ContentTypeOption from './ContentTypeOption';
-
-import gleansPic from '../../../../../public/gleans.svg';
-import collectionPic from '../../../../../public/collections.svg';
-import Button from '@/app/components/button';
+import AddContentStep from './AddContentStep';
+import DescriptionStep from './DescriptionStep';
+import CollectionsStep from './CollectionsStep';
 
 export default function Page() {
+  const [step, setStep] = useState(Steps.MAIN);
+
+  const checkLink = (link: string) => {
+    setStep(Steps.COLLECTIONS);
+  };
+
+  const backToEdit = (data?: any) => {
+    setStep(Steps.MAIN); //Steps.EDIT
+  };
+
+  const renderContent = () => {
+    switch (step) {
+      case Steps.MAIN: {
+        return <AddContentStep addHandle={checkLink} />;
+      }
+      case Steps.EDIT: {
+        return null;
+      }
+      case Steps.COLLECTIONS: {
+        return <CollectionsStep value={[]} onSaveClick={backToEdit} />;
+      }
+      case Steps.DESCRIPTION: {
+        return (
+          <DescriptionStep
+            value="fwefwefwe"
+            onBackClick={backToEdit}
+            onSaveClick={backToEdit}
+          />
+        );
+      }
+      case Steps.DONE: {
+        return null;
+      }
+      default: {
+        return null;
+      }
+    }
+  };
+
   return (
-    <Modal>
-      <h2 className="text-white/50 text-3xl text-center mb-14">Add content</h2>
-
-      <div className="flex justify-around">
-        <ContentTypeOption
-          image={gleansPic}
-          title="Create a Glean"
-          description="Add content, links & descriptive text"
-        />
-        <ContentTypeOption
-          image={collectionPic}
-          title="Collection"
-          description="Organise gleans & direct links"
-        />
-      </div>
-
-      <Input adornment="🔗" button={<Button>Add</Button>} />
-
-      <p className="text-sm text-center">
-        <b>Powered by Gleans Ai</b> ✨ Create content automatically and make
-        changes if needed.
-      </p>
+    <Modal
+      fullHeight={step !== Steps.MAIN}
+      className={step !== Steps.MAIN ? 'flex items-stretch' : ''}
+    >
+      {renderContent()}
     </Modal>
   );
 }
