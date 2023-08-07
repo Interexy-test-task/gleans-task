@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import getEmoji from 'get-random-emoji';
 
 import Button from '@/app/components/button';
 import { TAGS } from '@/app/constants/content-creation/tags';
-import useEmojiColor from '@/app/hooks/useEmojiColor';
 
 import PlusIcon from '../../../../../public/plus.svg';
 import MinusIcon from '../../../../../public/minus.svg';
@@ -16,7 +14,7 @@ type Props = {
   onShowDescription: () => void;
   onShowCollections: () => void;
   onBackClick: () => void;
-  onSaveClick: (data: Array<string>) => void;
+  onSaveClick: () => void;
 };
 
 const EditStep: React.FC<Props> = ({
@@ -26,28 +24,13 @@ const EditStep: React.FC<Props> = ({
   onSaveClick,
   onBackClick,
 }) => {
-  const [inputValue, setInputValue] = useState<Array<string>>([]);
-  const [emoji, setEmoji] = useState<{ value: string; color: string }>({
-    value: '',
-    color: 'transparent',
-  });
-  const [tags, setTags] = useState<Array<string>>([]);
-
-  /* eslint-disable */
-  useEffect(() => {
-    const emoji = getEmoji();
-    const color = useEmojiColor(emoji);
-    setEmoji({ value: emoji, color });
-  }, []);
-  /* eslint-enable */
+  const [tags, setTags] = useState<Array<string>>(value.keywords || []);
 
   const onSave = () => {
-    onSaveClick(inputValue);
+    onSaveClick();
   };
 
   const addTag = (id: string) => {
-    console.log('getEmojigetEmoji', getEmoji());
-
     setTags([...tags, id]);
   };
 
@@ -59,14 +42,16 @@ const EditStep: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full md:h-fit">
       <div className="flex flex-col h-full">
         <div className="flex flex-col grow items-center">
           <div
             className="h-60 w-60 p-6 mb-9 rounded-[25px]"
-            style={{ background: emoji.color }}
+            style={{ background: value.emoji.color }}
           >
-            <div className="text-center text-[80px] mb-4">{emoji.value}</div>
+            <div className="text-center text-[80px] mb-4">
+              {value.emoji.value}
+            </div>
             <div className="flex">
               <Image
                 src={ImageIcon}
@@ -80,43 +65,41 @@ const EditStep: React.FC<Props> = ({
           </div>
 
           <h2 className="text-3xl text-white text-center font-medium mb-4">
-            Very very long title or collection name
+            {value.title || 'Very very long title or collection name'}
           </h2>
 
           <div
-            className="mb-7 max-h-16 overflow-hidden relative"
+            className="mb-7 h-16 overflow-hidden relative"
             onClick={onShowDescription}
           >
-            <p className="text-center text-sm text-transparent bg-clip-text bg-gradient-to-t from-transparent to-[#B9B9B9] to-80%">
-              This is where a detailed scraped description would appear in a
-              glean or collection. If it gets too long, it will start to fade
-              out so that editors can think free and edit the text if needed.
+            <p
+              className="
+                text-center text-sm cursor-pointer h-full
+                text-transparent bg-clip-text bg-gradient-to-b from-[#B9B9B9] to-transparent to-90%"
+            >
+              {value.description}
             </p>
           </div>
 
           <div className="flex flex-wrap justify-center mb-14">
             {TAGS.map((tag) => (
               <div
-                key={tag.id}
+                key={tag}
                 className="mr-2.5 mb-2.5 px-3 py-2 rounded-[32px] bg-[#2A2A2A] flex items-center"
               >
-                <span className="mr-1.5">{tag.name}</span>
+                <span className="mr-1.5">{tag}</span>
 
-                {tags.includes(tag.id) ? null : (
+                {tags.includes(tag) ? null : (
                   <>
-                    <Image
-                      src={PlusIcon}
-                      alt="add"
-                      onClick={() => addTag(tag.id)}
-                    />
-                    <div className="mx-2 bg-[#B9B9B9] w-[1px] h-[13px]" />
+                    <button onClick={() => addTag(tag)} className="px-2 h-full">
+                      <Image src={PlusIcon} alt="add" />
+                    </button>
+                    <div className="bg-[#B9B9B9] w-[1px] h-[13px]" />
                   </>
                 )}
-                <Image
-                  src={MinusIcon}
-                  alt="remove"
-                  onClick={() => removeTag(tag.id)}
-                />
+                <button onClick={() => removeTag(tag)} className="px-2 h-full">
+                  <Image src={MinusIcon} alt="remove" />
+                </button>
               </div>
             ))}
           </div>
@@ -132,7 +115,7 @@ const EditStep: React.FC<Props> = ({
           </button>
         </div>
 
-        <div className="mx-auto mt-11">
+        <div className="mx-auto pt-11">
           <Button onClick={onBackClick} className="mr-4" faded>
             Back
           </Button>

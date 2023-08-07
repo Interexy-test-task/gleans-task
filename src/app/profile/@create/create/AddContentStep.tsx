@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 
 import Input from '@/app/components/input';
 import Button from '@/app/components/button';
@@ -9,10 +9,12 @@ import collectionPic from '../../../../../public/collections.svg';
 import ContentTypeOption from './ContentTypeOption';
 
 type Props = {
-  addHandle: (link?: string) => void;
+  addHandle: (link: string) => void;
 };
 
 const AddContentStep: FC<Props> = ({ addHandle }) => {
+  const [inputValue, setInputValue] = useState<string>('');
+
   return (
     <>
       <h2 className="text-white/50 text-3xl text-center mb-14">Add content</h2>
@@ -31,8 +33,12 @@ const AddContentStep: FC<Props> = ({ addHandle }) => {
       </div>
 
       <Input
+        value={inputValue}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setInputValue(e.target.value)
+        }
         adornment="🔗"
-        button={<Button onClick={() => addHandle('')}>Add</Button>}
+        button={<Button onClick={() => addHandle(inputValue)}>Add</Button>}
       />
 
       <p className="text-sm text-center">

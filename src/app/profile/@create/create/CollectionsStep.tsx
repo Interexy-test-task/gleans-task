@@ -10,7 +10,7 @@ type Props = {
 };
 
 const CollectionsStep: React.FC<Props> = ({ value, onSaveClick }) => {
-  const [inputValue, setInputValue] = useState<Array<string>>([]);
+  const [inputValue, setInputValue] = useState<Array<string>>(value);
 
   const toggleValue = (value: string) => {
     const index = inputValue.indexOf(value);
@@ -29,7 +29,7 @@ const CollectionsStep: React.FC<Props> = ({ value, onSaveClick }) => {
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full md:h-fit">
       <div className="flex flex-col h-full">
         <div className="flex flex-col grow justify-center items-center">
           <h2 className="text-white/50 text-3xl text-center pb-24	">
@@ -40,7 +40,7 @@ const CollectionsStep: React.FC<Props> = ({ value, onSaveClick }) => {
             <div
               key={collection.id}
               className={twMerge(
-                `px-6 py-3 mb-2 rounded-[29px]
+                `px-6 py-3 mb-2 rounded-[29px] cursor-pointer
                 text-[#B9B9B9] transition-all duration-500`,
                 inputValue.includes(collection.id)
                   ? 'bg-[#2c2c2c] text-white'

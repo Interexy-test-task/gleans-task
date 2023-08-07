@@ -27,7 +27,8 @@ const DescriptionStep: FC<Props> = ({ value, onBackClick, onSaveClick }) => {
           </p>
 
           <Input
-            className="px-5 py-8 text-sm text-[#B9B9B9] h-auto"
+            multiline
+            className="px-5 py-8 text-sm text-[#B9B9B9]"
             value={inputValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setInputValue(e.target.value)
