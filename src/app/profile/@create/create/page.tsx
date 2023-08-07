@@ -1,30 +1,36 @@
-// 'use client';
+import Input from '@/app/components/input';
+import Modal from '@/app/components/modal';
+
+import ContentTypeOption from './ContentTypeOption';
+
+import gleansPic from '../../../../../public/gleans.svg';
+import collectionPic from '../../../../../public/collections.svg';
+import Button from '@/app/components/button';
 
 export default function Page() {
   return (
-    <div
-      className="
-        absolute top-0 left-0
-        h-full w-full
-        backdrop-blur-xl
-        flex md:justify-center items-end md:items-center opacity-1"
-    >
-      <div
-        className="
-          absolute
-          bg-[#151515]/80 rounded-t-[43px] md:rounded-b-[43px]
-          w-full md:w-[430px]
-          px-5 md:px-12 py-14 md:py-9
-          animate-appear"
-      >
-        <h2 className="text-white/50 text-3xl text-center mb-14">
-          Add content
-        </h2>
-        <p className="text-sm text-center">
-          <b>Powered by Gleans Ai</b> ✨ Create content automatically and make
-          changes if needed.
-        </p>
+    <Modal>
+      <h2 className="text-white/50 text-3xl text-center mb-14">Add content</h2>
+
+      <div className="flex justify-around">
+        <ContentTypeOption
+          image={gleansPic}
+          title="Create a Glean"
+          description="Add content, links & descriptive text"
+        />
+        <ContentTypeOption
+          image={collectionPic}
+          title="Collection"
+          description="Organise gleans & direct links"
+        />
       </div>
-    </div>
+
+      <Input adornment="🔗" button={<Button>Add</Button>} />
+
+      <p className="text-sm text-center">
+        <b>Powered by Gleans Ai</b> ✨ Create content automatically and make
+        changes if needed.
+      </p>
+    </Modal>
   );
 }
