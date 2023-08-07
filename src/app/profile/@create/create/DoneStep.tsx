@@ -1,8 +1,4 @@
-import { useState } from 'react';
-
 import Button from '@/app/components/button';
-import { COLLECTIONS } from '@/app/constants/content-creation/collections';
-import { twMerge } from 'tailwind-merge';
 
 type Props = {
   onDoneClick: () => void;

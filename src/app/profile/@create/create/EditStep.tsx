@@ -85,7 +85,10 @@ const EditStep: React.FC<Props> = ({
 
           <div className="flex flex-wrap justify-center mb-14">
             {TAGS.map((tag) => (
-              <div className="mr-2.5 mb-2.5 px-3 py-2 rounded-[32px] bg-[#2A2A2A] flex items-center">
+              <div
+                key={tag.id}
+                className="mr-2.5 mb-2.5 px-3 py-2 rounded-[32px] bg-[#2A2A2A] flex items-center"
+              >
                 <span className="mr-1.5">{tag.name}</span>
 
                 {tags.includes(tag.id) ? null : (

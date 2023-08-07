@@ -14,7 +14,7 @@ import DoneStep from './DoneStep';
 export default function Page() {
   const [step, setStep] = useState(Steps.MAIN);
 
-  const checkLink = (link: string) => {
+  const checkLink = (link?: string) => {
     setStep(Steps.EDIT);
   };
 

@@ -38,6 +38,7 @@ const CollectionsStep: React.FC<Props> = ({ value, onSaveClick }) => {
 
           {COLLECTIONS.map((collection) => (
             <div
+              key={collection.id}
               className={twMerge(
                 `px-6 py-3 mb-2 rounded-[29px]
                 text-[#B9B9B9] transition-all duration-500`,

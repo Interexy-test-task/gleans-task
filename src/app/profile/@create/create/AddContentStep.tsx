@@ -9,7 +9,7 @@ import collectionPic from '../../../../../public/collections.svg';
 import ContentTypeOption from './ContentTypeOption';
 
 type Props = {
-  addHandle: (link: string) => void;
+  addHandle: (link?: string) => void;
 };
 
 const AddContentStep: FC<Props> = ({ addHandle }) => {
