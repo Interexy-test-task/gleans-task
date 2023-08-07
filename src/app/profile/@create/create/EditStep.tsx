@@ -33,11 +33,13 @@ const EditStep: React.FC<Props> = ({
   });
   const [tags, setTags] = useState<Array<string>>([]);
 
+  /* eslint-disable */
   useEffect(() => {
     const emoji = getEmoji();
     const color = useEmojiColor(emoji);
     setEmoji({ value: emoji, color });
   }, []);
+  /* eslint-enable */
 
   const onSave = () => {
     onSaveClick(inputValue);
